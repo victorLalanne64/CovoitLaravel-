@@ -31,5 +31,7 @@ Route::post('/employes/{id}/verify', [EmployeController::class, 'verify'])->name
 
 // --- Routes pour les Voitures ---
 
-// Affiche les détails d'une voiture et ses propriétaires (Vue n°3 - Figure 1.3)
-Route::get('/voitures/{id}', [VehiculeController::class, 'show'])->name('voitures.show');
+// Affiche les détails d'une voiture et ses propriétaires (Vue n°3 - Figure 1.3) avec vérification du nombre de places
+Route::get('/voitures/{id}', [VehiculeController::class, 'show'])
+    ->middleware('verifier.limite.places.voiture')
+    ->name('voitures.show');
