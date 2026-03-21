@@ -12,7 +12,7 @@ class Employe extends Model
 
     public function voitures()
     {
-        return $this->hasMany(Voiture::class);
+        return $this->belongsToMany(Voiture::class, 'employe_voiture', 'employe_id', 'voiture_id');
     }
 
     public function campuses()

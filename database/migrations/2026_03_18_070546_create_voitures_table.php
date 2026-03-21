@@ -11,7 +11,6 @@ return new class extends Migration
             $table->id();
             $table->string('modele');
             $table->integer('nb_places');
-            $table->foreignId('employe_id')->constrained('employes');
             $table->timestamps();
         });
     }

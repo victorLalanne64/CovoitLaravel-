@@ -11,7 +11,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'verifier.possession.voiture' => \App\Http\Middleware\VerifierPossessionVoiture::class,
+            'verifier.appartenance.campus' => \App\Http\Middleware\VerifierAppartenanceCampus::class,
+            'verifier.limite.places.voiture' => \App\Http\Middleware\VerifierLimitePlacesVoiture::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

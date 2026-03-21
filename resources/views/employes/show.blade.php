@@ -1,45 +1,37 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <p>Employé / Voitures / Trajets / Campus</p>
-    <h3>Profil Employé</h3>
-    
-    <div style="border: 1px dashed #000; padding: 10px; margin-bottom: 20px;">
-        <h4>Informations principales de M. {{ $employe->nom }}</h4>
-        <table style="width: 100%;">
-            <tr>
-                <td style="border: 1px solid #ddd; padding: 5px;"><b>Nom</b></td>
-                <td style="border: 1px solid #ddd; padding: 5px;">{{ $employe->nom }}</td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #ddd; padding: 5px;"><b>Prénom</b></td>
-                <td style="border: 1px solid #ddd; padding: 5px;">{{ $employe->prenom }}</td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #ddd; padding: 5px;"><b>Email</b></td>
-                <td style="border: 1px solid #ddd; padding: 5px;">{{ $employe->email }}</td>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #ddd; padding: 5px;"><b>NbVoiture</b></td>
-                <td style="border: 1px solid #ddd; padding: 5px;">{{ $nbVoitures }}</td>
-            </tr>
-        </table>
+<div class="bg-green-100 border border-green-300 rounded-lg p-4">
+    @if(session('bus_error'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">
+            {{ session('bus_error') }}
+        </div>
+    @endif
+    <h2 class="font-bold text-lg mb-2">Profil Employé</h2>
+    @include('partials.infos_employes', ['employe' => $employe])
+
+    <div class="mt-4">
+        <h4 class="font-bold mb-2">Activité</h4>
+        <p class="mb-4"><strong>Statut :</strong> Conducteur</p>
+
+        <form action="{{ route('employes.verify', $employe->id) }}" method="POST" class="flex items-center gap-4 mb-6">
+            @csrf
+            <label>Voiture</label>
+            <input type="text" name="modele" placeholder="Modèle à chercher" class="border p-1">
+            <button type="submit" class="bg-yellow-100 border border-yellow-400 px-4 py-1">Vérifier</button>
+            <span class="font-bold {{ session('result') == 'YES' ? 'text-green-600' : 'text-red-600' }}">
+                {{ session('result') ?? 'YES/NO' }}
+            </span>
+        </form>
+
+        <div class="flex flex-col gap-2">
+            @foreach($employe->voitures as $index => $v)
+                <div>
+                    <span class="font-semibold">Voiture {{ $index + 1 }}</span>
+                    <a href="{{ route('voitures.show', $v->id) }}" class="ml-2 bg-green-200 border border-green-400 px-2 py-1 rounded text-xs">Voir</a>
+                </div>
+            @endforeach
+        </div>
     </div>
-
-    <h4>Activité</h4>
-    <p><b>Statut :</b> {{ $statut }}</p>
-
-    <form action="{{ route('employes.verifier', $employe->id) }}" method="POST" style="margin-bottom: 20px;">
-        @csrf
-        <b>Voiture</b> 
-        <input type="text" name="modele" placeholder="Modèle à chercher">
-        <button type="submit" style="background-color: #f5deb3; border: 1px solid #ccc; padding: 5px 10px;">Verifier</button>
-        @if(session('result'))
-            <b>{{ session('result') }}</b>
-        @endif
-    </form>
-
-    @foreach($employe->voitures as $index => $voiture)
-        <p><b>Voiture {{ $index + 1 }}</b> <a href="{{ route('vehicules.show', $voiture->id) }}" style="background-color: #20b2aa; color: white; padding: 3px 8px; text-decoration: none; border-radius: 3px;">Voir</a></p>
-    @endforeach
+</div>
 @endsection

@@ -13,11 +13,9 @@ class EmployeSeeder extends Seeder
 
         foreach ($employes as $employe) {
             $nbVoitures = rand(0, 2);
-            
-            if ($nbVoitures > 0) {
-                Voiture::factory()->count($nbVoitures)->create([
-                    'employe_id' => $employe->id
-                ]);
+            for ($i = 0; $i < $nbVoitures; $i++) {
+                $voiture = Voiture::factory()->create();
+                $voiture->proprietaires()->attach($employe->id);
             }
         }
     }
