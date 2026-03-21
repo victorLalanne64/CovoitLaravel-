@@ -9,6 +9,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             EmployeSeeder::class,
+            TestEmployeCampusSeeder::class,
         ]);
     }
 }

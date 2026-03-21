@@ -16,9 +16,9 @@ Route::get('/', function () {
 Route::get('/employes', [EmployeController::class, 'index'])->name('employes.index');
 
 
-// Affiche le profil d'un employé spécifique (Vue n°2 - Figure 1.2) avec vérification de possession de voiture
+// Affiche le profil d'un employé spécifique (Vue n°2 - Figure 1.2) avec vérification de possession de voiture et d'appartenance à un campus
 Route::get('/employes/{id}', [EmployeController::class, 'show'])
-    ->middleware('verifier.possession.voiture')
+    ->middleware(['verifier.appartenance.campus', 'verifier.possession.voiture'])
     ->name('employes.show');
 
 // Formulaire pour ajouter une voiture à un employé (vue de redirection)

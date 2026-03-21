@@ -15,5 +15,6 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'verifier.possession.voiture' => \App\Http\Middleware\VerifierPossessionVoiture::class,
+        'verifier.appartenance.campus' => \App\Http\Middleware\VerifierAppartenanceCampus::class,
     ];
 }
