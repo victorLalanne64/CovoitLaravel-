@@ -39,13 +39,11 @@ class EmployeController extends Controller
         return redirect()->route('employes.show', $id)->with('result', $result);
     }
 
-    public function create() {}
+    // Ajout alias pour la route POST /employes/{id}/verify
+    public function verify(Request $request, string $id)
+    {
+        return $this->verifierModele($request, $id);
+    }
 
-    public function store(Request $request) {}
 
-    public function edit(string $id) {}
-
-    public function update(Request $request, string $id) {}
-
-    public function destroy(string $id) {}
 }

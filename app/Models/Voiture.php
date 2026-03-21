@@ -8,12 +8,14 @@ class Voiture extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['modele', 'nb_places', 'employe_id'];
+    protected $fillable = ['modele', 'nb_places'];
 
-    public function employe()
+    // Relation plusieurs propriétaires (ManyToMany)
+    public function proprietaires()
     {
-        return $this->belongsTo(Employe::class);
+        return $this->belongsToMany(Employe::class, 'employe_voiture', 'voiture_id', 'employe_id');
     }
+
 
     public function trajets()
     {

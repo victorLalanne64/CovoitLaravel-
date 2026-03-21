@@ -7,16 +7,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('voitures', function (Blueprint $table) {
+        Schema::create('employe_voiture', function (Blueprint $table) {
             $table->id();
-            $table->string('modele');
-            $table->integer('nb_places');
+            $table->foreignId('employe_id')->constrained('employes');
+            $table->foreignId('voiture_id')->constrained('voitures');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('voitures');
+        Schema::dropIfExists('employe_voiture');
     }
 };
