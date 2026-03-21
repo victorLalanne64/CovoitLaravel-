@@ -14,7 +14,14 @@ class VerifierLimitePlacesVoiture
             if ($voiture->nb_places < 8) {
                 return $next($request);
             } else {
-                abort(403, "Visualisation interdite : cette voiture a 8 places ou plus.");
+                // Trouver le propriétaire principal (premier employé lié)
+                $employe = $voiture->proprietaires()->first();
+                if ($employe) {
+                    return redirect()->route('employes.show', $employe->id)
+                        ->with('bus_error', 'Visualisation des bus en cours');
+                } else {
+                    return redirect()->back()->with('bus_error', 'Visualisation des bus en cours');
+                }
             }
         }
         return $next($request);
