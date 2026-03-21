@@ -14,8 +14,6 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
-        'possede.voiture' => \App\Http\Middleware\PossedeVoitureMiddleware::class,
-        'appartient.campus' => \App\Http\Middleware\AppartientCampusMiddleware::class,
-        'limite.places.voiture' => \App\Http\Middleware\LimitePlacesVoitureMiddleware::class,
+        'verifier.possession.voiture' => \App\Http\Middleware\VerifierPossessionVoiture::class,
     ];
 }

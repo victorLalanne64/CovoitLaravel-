@@ -11,7 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+        'verifier.possession.voiture' => \App\Http\Middleware\VerifierPossessionVoiture::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

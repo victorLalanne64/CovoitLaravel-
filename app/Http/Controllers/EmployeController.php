@@ -13,6 +13,27 @@ class EmployeController extends Controller
         return view('employes.index', compact('employes'));
     }
 
+    // Affiche le formulaire pour ajouter une voiture à un employé
+    public function formulaireAjoutVoiture(string $id)
+    {
+        $employe = Employe::findOrFail($id);
+        return view('employes.formulaire_ajout_voiture', compact('employe'));
+    }
+
+    // Traite l'ajout d'une voiture pour un employé
+    public function ajouterVoiture(Request $request, string $id)
+    {
+        $employe = Employe::findOrFail($id);
+        $request->validate([
+            'modele' => 'required|string|max:255',
+            'nb_places' => 'required|integer|min:1',
+        ]);
+        $voiture = $employe->voitures()->create([
+            'modele' => $request->input('modele'),
+            'nb_places' => $request->input('nb_places'),
+        ]);
+        return redirect()->route('employes.show', $employe->id)->with('success', 'Voiture ajoutée avec succès.');
+    }
     public function show(string $id)
     {
         $employe = Employe::findOrFail($id);

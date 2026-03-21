@@ -15,8 +15,15 @@ Route::get('/', function () {
 // Affiche la liste de tous les employés (Vue n°1 - Figure 1.1)
 Route::get('/employes', [EmployeController::class, 'index'])->name('employes.index');
 
-// Affiche le profil d'un employé spécifique (Vue n°2 - Figure 1.2)
-Route::get('/employes/{id}', [EmployeController::class, 'show'])->name('employes.show');
+
+// Affiche le profil d'un employé spécifique (Vue n°2 - Figure 1.2) avec vérification de possession de voiture
+Route::get('/employes/{id}', [EmployeController::class, 'show'])
+    ->middleware('verifier.possession.voiture')
+    ->name('employes.show');
+
+// Formulaire pour ajouter une voiture à un employé (vue de redirection)
+Route::get('/employes/{id}/ajouter-voiture', [EmployeController::class, 'formulaireAjoutVoiture'])->name('employes.formulaire_ajout_voiture');
+Route::post('/employes/{id}/ajouter-voiture', [EmployeController::class, 'ajouterVoiture'])->name('employes.ajouter_voiture');
 
 // Gère la logique de vérification "YES/NO" du modèle de voiture
 Route::post('/employes/{id}/verify', [EmployeController::class, 'verify'])->name('employes.verify');
