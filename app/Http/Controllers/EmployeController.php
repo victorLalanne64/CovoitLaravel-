@@ -5,8 +5,74 @@ namespace App\Http\Controllers;
 use App\Models\Employe;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Tag(
+ *     name="Employes",
+ *     description="Gestion des employés"
+ * )
+ */
 class EmployeController extends Controller
 {
+
+    /**
+     * @OA\Get(
+     *     path="/api/employes",
+     *     tags={"Employes"},
+     *     summary="Liste tous les employés",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Liste des employés"
+     *     )
+     * )
+     */
+    public function apiIndex()
+    {
+        $employes = Employe::all();
+        return response()->json($employes);
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/employes/{id}",
+     *     tags={"Employes"},
+     *     summary="Afficher un employé",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'employé",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Détail de l'employé"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Employé non trouvé"
+     *     )
+     * )
+     */
+    public function apiShow(string $id)
+    {
+        $employe = Employe::findOrFail($id);
+        $nbVoitures = $employe->voitures()->count();
+        if ($nbVoitures === 0) {
+            $statut = "Pas conducteur";
+        } elseif ($nbVoitures === 1) {
+            $statut = "Conducteur";
+        } else {
+            $statut = "Conducteur très actif";
+        }
+        return response()->json([
+            'employe' => $employe,
+            'nbVoitures' => $nbVoitures,
+            'statut' => $statut
+        ]);
+    }
+
+    
     public function index()
     {
         $employes = Employe::all();
