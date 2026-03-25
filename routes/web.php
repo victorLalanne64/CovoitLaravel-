@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeController;
 use App\Http\Controllers\VehiculeController;
-use App\Http\Controllers\VoitureController;
 
 // Route par défaut : redirige vers la liste des employés
 Route::get('/', function () {
@@ -31,7 +30,7 @@ Route::post('/employes/{id}/verify', [EmployeController::class, 'verify'])->name
 
 // --- Routes pour les Voitures ---
 
-// Affiche les détails d'une voiture et ses propriétaires (Vue n°3 - Figure 1.3) avec vérification du nombre de places
+// Affiche les détails d'une voiture et ses propriétaires (Vue n°3 - Figure 1.3) 
 Route::get('/voitures/{id}', [VehiculeController::class, 'show'])
     ->middleware('verifier.limite.places.voiture')
     ->name('voitures.show');
